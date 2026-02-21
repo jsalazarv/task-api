@@ -173,6 +173,61 @@ Docker Compose reads configuration from `.env` file automatically.
    ```
 4. Commit your changes following conventional commits
 
+## Deployment
+
+### Production Deployment (Dokploy)
+
+For deploying to Dokploy, see the detailed guide:
+
+📖 **[Dokploy Deployment Guide](./docs/DOKPLOY_DEPLOYMENT.md)**
+
+Quick summary:
+
+1. **Create PostgreSQL database** in Dokploy or use external service
+2. **Create application** in Dokploy with Docker
+3. **Configure environment variables** (DATABASE_URL, JWT secrets, etc.)
+4. **Deploy** and verify with health check
+5. **Run migrations**: `npx prisma migrate deploy`
+6. **Run seeders** (optional): `npm run prisma:seed`
+
+The API will be available at your Dokploy domain (e.g., `https://hometasks-api-dev.dokploy.app`)
+
+### Docker Build
+
+To build and test the Docker image locally:
+
+```bash
+# Build image
+docker build -t hometasks-api:latest .
+
+# Run container
+docker run -p 3000:3000 \
+  -e DATABASE_URL="postgresql://user:pass@host:5432/db" \
+  -e NODE_ENV=production \
+  hometasks-api:latest
+
+# Test
+curl http://localhost:3000/health
+```
+
+### Environment Variables for Production
+
+See `.env.production.example` for all required variables.
+
+**Critical variables:**
+- `DATABASE_URL` - PostgreSQL connection string
+- `JWT_SECRET` - Secure random string (use `openssl rand -hex 32`)
+- `REFRESH_TOKEN_SECRET` - Secure random string
+- `CORS_ORIGIN` - Your frontend URL
+
+## API Collections
+
+Import API collections for testing:
+
+- **Postman**: `docs/postman_collections/HomeTasks_API.postman_collection.json`
+- **Bruno**: `docs/bruno_collections/HomeTasks_API/`
+- **cURL**: See examples in `docs/postman_collections/CURL_EXAMPLES.md`
+
 ## License
 
 Private - All rights reserved
