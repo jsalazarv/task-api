@@ -118,28 +118,50 @@ hometasks-api/
 
 ## Environment Variables
 
+All environment variables are defined in `.env` (not tracked in git). Copy `.env.example` to get started.
+
+### Database Configuration
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://hometasks:...` |
+| `POSTGRES_USER` | PostgreSQL username | `hometasks` |
+| `POSTGRES_PASSWORD` | PostgreSQL password | `hometasks_dev_password` |
+| `POSTGRES_DB` | PostgreSQL database name | `hometasks_dev` |
+| `DATABASE_URL` | Full PostgreSQL connection string | Constructed from above vars |
+
+### pgAdmin Configuration
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PGADMIN_EMAIL` | pgAdmin login email | `admin@hometasks.local` |
+| `PGADMIN_PASSWORD` | pgAdmin login password | `admin` |
+
+### Application Configuration
+| Variable | Description | Default |
+|----------|-------------|---------|
 | `NODE_ENV` | Environment (development/production) | `development` |
 | `PORT` | API server port | `3000` |
-| `JWT_ACCESS_SECRET` | JWT access token secret | (to be configured) |
-| `JWT_REFRESH_SECRET` | JWT refresh token secret | (to be configured) |
+
+### JWT Configuration (to be used later)
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `JWT_ACCESS_SECRET` | JWT access token secret | (change in production) |
+| `JWT_REFRESH_SECRET` | JWT refresh token secret | (change in production) |
+| `JWT_ACCESS_EXPIRATION` | Access token expiration time | `15m` |
+| `JWT_REFRESH_EXPIRATION` | Refresh token expiration time | `7d` |
 
 ## Docker Services
+
+Docker Compose reads configuration from `.env` file automatically.
 
 ### PostgreSQL
 - **Container:** hometasks-postgres
 - **Port:** 5432
-- **User:** hometasks
-- **Password:** hometasks_dev_password
-- **Database:** hometasks_dev
+- **Credentials:** Configured via `POSTGRES_USER`, `POSTGRES_PASSWORD`
+- **Database:** Configured via `POSTGRES_DB`
 
 ### pgAdmin
 - **Container:** hometasks-pgadmin
 - **URL:** http://localhost:5050
-- **Email:** admin@hometasks.local
-- **Password:** admin
+- **Credentials:** Configured via `PGADMIN_EMAIL`, `PGADMIN_PASSWORD`
 
 ## Development Workflow
 
