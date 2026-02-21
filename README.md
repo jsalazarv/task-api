@@ -177,9 +177,10 @@ Docker Compose reads configuration from `.env` file automatically.
 
 ### Production Deployment (Dokploy)
 
-For deploying to Dokploy, see the detailed guide:
+For deploying to Dokploy, see the detailed guides:
 
-📖 **[Dokploy Deployment Guide](./docs/DOKPLOY_DEPLOYMENT.md)**
+📖 **[Dokploy Quickstart Guide](../../docs/backend/DOKPLOY_QUICKSTART.md)** - 10 minutos
+📖 **[Dokploy Deployment Guide](../../docs/backend/DOKPLOY_DEPLOYMENT.md)** - Guía completa
 
 Quick summary:
 
