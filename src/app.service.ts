@@ -17,7 +17,7 @@ export class AppService {
 
   async checkDatabase() {
     try {
-      await this.prisma.$queryRaw`SELECT 1`;
+      await this.prisma.client.$queryRaw`SELECT 1`;
       
       const userCount = await this.prisma.user.count();
       const subscriptionCount = await this.prisma.subscription.count();
