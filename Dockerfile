@@ -35,16 +35,16 @@ RUN npm ci --omit=dev && \
 # Copy built application from builder
 COPY --from=builder /app/dist ./dist
 
-# Copy startup script
-COPY scripts/start.sh ./scripts/start.sh
-RUN chmod +x ./scripts/start.sh
-
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001
 
-# Change ownership
-RUN chown -R nodejs:nodejs /app
+# Copy startup script
+COPY scripts/start.sh ./scripts/start.sh
+
+# Change ownership and set permissions
+RUN chown -R nodejs:nodejs /app && \
+    chmod +x ./scripts/start.sh
 
 USER nodejs
 
@@ -56,4 +56,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=40s \
   CMD node -e "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
 # Start application with migrations and seeders
-CMD ["./scripts/start.sh"]
+CMD ["sh", "./scripts/start.sh"]
