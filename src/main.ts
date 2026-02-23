@@ -7,25 +7,28 @@ async function bootstrap() {
 
   // Enable CORS for Flutter app
   app.enableCors({
-    origin: '*', // In production, specify exact origins
+    origin: process.env.CORS_ORIGIN || '*',
     credentials: true,
   });
 
   // Global validation pipe
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Strip properties that don't have decorators
-      forbidNonWhitelisted: true, // Throw error if extra properties are sent
-      transform: true, // Auto-transform payloads to DTO instances
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
     }),
   );
 
   const port = process.env.PORT || 3000;
-  await app.listen(port);
+  
+  // Escuchar en 0.0.0.0 para permitir conexiones externas (Docker/Dokploy)
+  await app.listen(port, '0.0.0.0');
 
-  console.log(`🚀 Backend running on http://localhost:${port}`);
-  console.log(`📊 Prisma Studio: http://localhost:5555`);
-  console.log(`🗄️  pgAdmin: http://localhost:5050`);
+  console.log(`🚀 Backend running on http://0.0.0.0:${port}`);
+  console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🔗 Health check: /health`);
+  console.log(`🔐 Auth endpoints: /auth/register, /auth/login`);
 }
 
 bootstrap();
