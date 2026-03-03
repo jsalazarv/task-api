@@ -20,7 +20,7 @@ async function bootstrap() {
     }),
   );
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 3001;
   
   // Escuchar en 0.0.0.0 para permitir conexiones externas (Docker/Dokploy)
   await app.listen(port, '0.0.0.0');
